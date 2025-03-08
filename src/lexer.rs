@@ -1,4 +1,4 @@
-use crate::token::Token;
+use crate::token::{Token, TokenType};
 
 // Scans through each character and groups keywords, syntax
 struct Lexer {
@@ -19,6 +19,22 @@ impl Lexer {
             line: 1,
         }
     }
+
+    pub fn lex(&mut self) -> &Vec<Token> {
+        while !self.is_at_end() {
+            self.start = self.current;
+            self.scan_token();
+        }
+        self.tokens.push(Token {
+            token_type: TokenType::Eof,
+            lexeme: "EOF".to_string(),
+        });
+        &self.tokens
+    }
+
+    fn is_at_end(&self) -> bool {
+        todo!()
+    }
+
+    fn scan_token(&mut self) {}
 }
-
-
