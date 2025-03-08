@@ -1,0 +1,11 @@
+INVITE sip:+14155552222@example.pstn.twilio.com SIP/2.0
+Via: SIP/2.0/UDP 192.168.10.10:5060;branch=z9hG4bK776asdhds
+Max-Forwards: 70
+To: "Bob" <sip:+14155552222@example.pstn.twilio.com>
+From: "Alice" <sip:+14155551111@example.pstn.twilio.com>;tag=1
+Call-ID: a84b4c76e66710
+CSeq: 1 INVITE
+Contact: "Alice" <sip:+14155551111@192.168.10.10:5060>
+Diversion: "Sales" <sip:+14155550000@example.pstn.twilio.com>
+P-Asserted-Identity: "Alice" <sip:+14155551111@example.pstn.twilio.com>
+Content-Length: 0
