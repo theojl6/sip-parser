@@ -3,7 +3,7 @@ use crate::token::{Token, TokenType};
 // Scans through each character and groups keywords, syntax
 pub struct Lexer {
     source: Vec<char>,
-    tokens: Vec<Token>,
+    tokens: Option<Vec<Token>>,
     start: usize,
     current: usize,
     line: usize,
@@ -13,24 +13,24 @@ impl Lexer {
     pub fn new(source: String) -> Self {
         Lexer {
             source: source.chars().collect(),
-            tokens: vec![],
+            tokens: Some(vec![]),
             start: 0,
             current: 0,
             line: 1,
         }
     }
 
-    pub fn lex(&mut self) -> &Vec<Token> {
+    pub fn lex(&mut self) -> Vec<Token> {
         while !self.is_at_end() {
             self.start = self.current;
             self.scan_token();
         }
-        self.tokens.push(Token {
+        self.tokens.as_mut().unwrap().push(Token {
             token_type: TokenType::Eof,
             lexeme: "EOF".to_string(),
         });
         dbg!(&self.tokens);
-        &self.tokens
+        self.tokens.take().expect("Done goof")
     }
 
     fn is_at_end(&self) -> bool {
@@ -81,7 +81,10 @@ impl Lexer {
 
     fn add_token(&mut self, token_type: TokenType) {
         let lexeme: String = self.source[self.start..self.current].iter().collect();
-        self.tokens.push(Token { token_type, lexeme })
+        self.tokens
+            .as_mut()
+            .unwrap()
+            .push(Token { token_type, lexeme })
     }
 
     fn text(&mut self) -> String {
