@@ -34,7 +34,7 @@ impl Lexer {
             lexeme: "EOF".to_string(),
         });
         dbg!(&self.tokens);
-        self.tokens.take().expect("Done goof")
+        self.tokens.take().expect("Something unexpected happened")
     }
 
     fn is_at_end(&self) -> bool {
@@ -67,7 +67,7 @@ impl Lexer {
                 self.add_token(TokenType::HorizontalTab);
             }
             c if !is_separator(c) => {
-                self.text();
+                self.identifier();
             }
             _ => {}
         }
@@ -91,15 +91,20 @@ impl Lexer {
             .push(Token { token_type, lexeme })
     }
 
-    fn text(&mut self) -> String {
-        let mut text = String::new();
+    fn identifier(&mut self) {
         while !self.is_at_end() && !is_separator(self.peek()) {
-            let c = self.advance();
-            text.push_str(&c.to_string());
+            self.advance();
         }
-        self.add_token(TokenType::Text);
+        let text: String = self.source[self.start..self.current].iter().collect();
+        match text.as_str() {
+            "INVITE" => {
+                self.add_token(TokenType::Invite);
+            }
+            _ => {
+                self.add_token(TokenType::Text);
+            }
+        }
         self.start = self.current;
-        text
     }
 }
 

@@ -1,4 +1,4 @@
-use crate::sip::Sip;
+use crate::sip::{Sip, SipMethod};
 use crate::token::Token;
 
 pub struct Parser {
@@ -6,12 +6,18 @@ pub struct Parser {
     current: usize,
 }
 
+//
 impl Parser {
     pub fn new(tokens: Vec<Token>) -> Self {
         Parser { tokens, current: 0 }
     }
 
     pub fn parse(&mut self) -> Sip {
-        Sip {}
+        Sip {
+            method: SipMethod::Invite,
+        }
     }
+
+    // method Request-uri sip-version
+    fn request_line(&mut self) {}
 }
