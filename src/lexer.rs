@@ -13,7 +13,7 @@ impl Lexer {
     pub fn new(source: String) -> Self {
         Lexer {
             source: source.chars().collect(),
-            tokens: Some(vec![]),
+            tokens: None,
             start: 0,
             current: 0,
             line: 1,
@@ -21,6 +21,10 @@ impl Lexer {
     }
 
     pub fn lex(&mut self) -> Vec<Token> {
+        self.tokens = Some(vec![]);
+        self.start = 0;
+        self.current = 0;
+        self.line = 1;
         while !self.is_at_end() {
             self.start = self.current;
             self.scan_token();
