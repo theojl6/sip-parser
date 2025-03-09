@@ -96,9 +96,15 @@ impl Lexer {
             self.advance();
         }
         let text: String = self.source[self.start..self.current].iter().collect();
-        match text.as_str() {
-            "INVITE" => {
+        match text.to_ascii_lowercase().as_str() {
+            "invite" => {
                 self.add_token(TokenType::Invite);
+            }
+            "via" => {
+                self.add_token(TokenType::Via);
+            }
+            "max-forwards" => {
+                self.add_token(TokenType::MaxForwards);
             }
             _ => {
                 self.add_token(TokenType::Text);

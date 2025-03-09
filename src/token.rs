@@ -7,6 +7,8 @@ pub struct Token {
 #[derive(Debug)]
 pub enum TokenType {
     Invite,
+    Via,
+    MaxForwards,
     NewLine,
     CarriageReturn,
     HorizontalTab,
